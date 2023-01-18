@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Install Haproxy and configure two servers to be load-balanced
+sudo apt-get install -y software-properties-common
+sudo add-apt-repository -y ppa:vbernat/haproxy-1.8
+sudo apt-get update
+sudo apt-get install -y haproxy=1.8.\*
+
+echo "ENABLED=1" > /etc/default/haproxy
+
+echo "
+listen load_balancer
+   bind 0.0.0.0:80
+   mode http
+   stats enable
+   stats uri /haproxy?stats
+   balance roundrobin
+   option httpclose
+   option forwardfor
+   server 79487-web-01 100.25.181.230:80 check
+   server 79487-web-02 54.242.190.40:80 check
+" >> /etc/haproxy/haproxy.cfg
+
+sudo service haproxy start
