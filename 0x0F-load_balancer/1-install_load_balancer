@@ -9,9 +9,9 @@ echo "frontend http
         bind *:80
         mode http
         default_backend web-backend
-    backend web-backend
+        backend web-backend
         balance roundrobin
-        server 79487-web-01 100.25.181.230
+        server 79487-web-01 54.146.59.253
         server 79487-web-02 54.242.190.40" >> /etc/haproxy/haproxy.cfg
 
 service haproxy restart
